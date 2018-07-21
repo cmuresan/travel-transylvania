@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="names">
-        <item>Alba Iulia</item>
-        <item>Baia Mare</item>
         <item>Bistrița</item>
         <item>Brașov</item>
         <item>Cluj-Napoca</item>
@@ -23,8 +21,6 @@
     </string-array>
 
     <string-array name="descriptions">
-        <item>Alba Iulia is a city located on the Mureş River in Alba County, Transylvania, Romania, with a population of 63,536 as of 2011. Since the High Middle Ages, the city has been the seat of Transylvania's Roman Catholic diocese. Between 1541 and 1690 it was the capital of the Eastern Hungarian Kingdom and the latter Principality of Transylvania. Alba Iulia is historically important for Romanians, Hungarians and Transylvanian Saxons.</item>
-        <item>Baia Mare is a municipality along the Săsar River, in northwestern Romania; it is the capital of Maramureș County. Located south of Igniș and Gutâi Mountains, Baia Mare had a population of 123,738 at the 2011 census, and a metropolitan area home to 215,932 residents. The city administers four villages: Blidari, Firiza, Valea Borcutului and Valea Neagră. Baia Mare has been named the Romanian Youth Capital from 2 May 2018 to 1 May 2019.</item>
         <item>Bistrița is the capital city of Bistrița-Năsăud County, in northern Transylvania, Romania. It is situated on the Bistrița River. The city has a population of approximately 70,000 inhabitants, and it administers six villages.</item>
         <item>Brașov is a city in Romania and the administrative centre of Brașov County.
 According to the latest Romanian census (2011), Brașov has a population of 253,200, making it the 7th most populous city in Romania. The metropolitan area is home to 369,896 residents.\n
@@ -60,8 +56,6 @@ By form and function, Peleş is a palace, but it is consistently called a castle
     </string-array>
 
     <string-array name="read_more">
-        <item>https://en.wikipedia.org/wiki/Alba_Iulia</item>
-        <item>https://en.wikipedia.org/wiki/Baia_Mare</item>
         <item>https://en.wikipedia.org/wiki/Bistrița</item>
         <item>https://en.wikipedia.org/wiki/Brașov</item>
         <item>https://en.wikipedia.org/wiki/Cluj-Napoca</item>
@@ -82,8 +76,6 @@ By form and function, Peleş is a palace, but it is consistently called a castle
     </string-array>
 
     <string-array name="latitude">
-        <item>46.0616789</item>
-        <item>47.6689416</item>
         <item>47.1330456</item>
         <item>45.6525767</item>
         <item>46.7834818</item>
@@ -104,8 +96,6 @@ By form and function, Peleş is a palace, but it is consistently called a castle
     </string-array>
 
     <string-array name="longitude">
-        <item>23.5229834</item>
-        <item>23.5358472</item>
         <item>24.4766056</item>
         <item>25.5264233</item>
         <item>23.546473</item>
@@ -126,8 +116,6 @@ By form and function, Peleş is a palace, but it is consistently called a castle
     </string-array>
 
     <string-array name="zoom">
-        <item>13</item>
-        <item>13</item>
         <item>14</item>
         <item>12</item>
         <item>12</item>
