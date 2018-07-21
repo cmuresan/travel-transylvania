@@ -134,4 +134,24 @@ By form and function, Peleş is a palace, but it is consistently called a castle
         <item>17</item>
         <item>17</item>
     </string-array>
+
+    <string-array name="images">
+        <item>bistrita</item>
+        <item>brasov</item>
+        <item>cluj_napoca</item>
+        <item>oradea</item>
+        <item>sibiu</item>
+        <item>sighisoara</item>
+        <item>biertan</item>
+        <item>calnic</item>
+        <item>prejmer</item>
+        <item>saschiz</item>
+        <item>viscri</item>
+        <item>alba_iulia_citadel</item>
+        <item>bran_castle</item>
+        <item>corvin_castle</item>
+        <item>fagaras_fortress</item>
+        <item>rasnov_citadel</item>
+        <item>peles_castle</item>
+    </string-array>
 </resources>

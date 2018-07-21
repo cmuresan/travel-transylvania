@@ -1,6 +1,7 @@
 package com.cristianmmuresan.traveltransylvania.datacomposer;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
@@ -25,16 +26,18 @@ public class DataComposer {
     }
 
     public void loadDataIntoDatabase() {
-        List<String> names = Arrays.asList(context.getResources().getStringArray(R.array.names));
-        List<String> descriptions = Arrays.asList(context.getResources().getStringArray(R.array.descriptions));
-        List<String> readMoreLinks = Arrays.asList(context.getResources().getStringArray(R.array.read_more));
-        List<String> latitudes = Arrays.asList(context.getResources().getStringArray(R.array.latitude));
-        List<String> longitudes = Arrays.asList(context.getResources().getStringArray(R.array.longitude));
-        List<String> zoomLevels = Arrays.asList(context.getResources().getStringArray(R.array.zoom));
+        Resources resources = context.getResources();
+        String packageName = context.getPackageName();
+        List<String> names = Arrays.asList(resources.getStringArray(R.array.names));
+        List<String> descriptions = Arrays.asList(resources.getStringArray(R.array.descriptions));
+        List<String> readMoreLinks = Arrays.asList(resources.getStringArray(R.array.read_more));
+        List<String> latitudes = Arrays.asList(resources.getStringArray(R.array.latitude));
+        List<String> longitudes = Arrays.asList(resources.getStringArray(R.array.longitude));
+        List<String> zoomLevels = Arrays.asList(resources.getStringArray(R.array.zoom));
+        List<String> images = Arrays.asList(resources.getStringArray(R.array.images));
 
         //We assume that the newly create lists are equal in size
         int size = names.size();
-
         for (int i = 0; i < size; i++) {
             PlaceEntry placeEntry = new PlaceEntry();
             placeEntry.setName(names.get(i));
@@ -44,6 +47,7 @@ public class DataComposer {
             placeEntry.setLongitude(Double.parseDouble(longitudes.get(i)));
             placeEntry.setZoom(Float.parseFloat(zoomLevels.get(i)));
             placeEntry.setFavorite(false);
+            placeEntry.setImageResources(resources.getIdentifier(images.get(i), "drawable", packageName));
             insertPlaceEntry(placeEntry);
         }
     }

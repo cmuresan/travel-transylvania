@@ -13,6 +13,7 @@ public class PlaceEntry {
     private double latitude;
     private double longitude;
     private float zoom;
+    private int imageResources;
     private boolean isFavorite;
 
     public int getId() {
@@ -69,6 +70,14 @@ public class PlaceEntry {
 
     public void setZoom(float zoom) {
         this.zoom = zoom;
+    }
+
+    public int getImageResources() {
+        return imageResources;
+    }
+
+    public void setImageResources(int imageResources) {
+        this.imageResources = imageResources;
     }
 
     public boolean isFavorite() {
