@@ -6,4 +6,7 @@
     <string name="cities">Cities</string>
     <string name="villages">Villages</string>
     <string name="castles">Castles, Citadels and Fortresses</string>
+    <string name="action_directions">Get directions</string>
+    <string name="share_via">Share via</string>
+    <string name="get_directions">Get directions</string>
 </resources>

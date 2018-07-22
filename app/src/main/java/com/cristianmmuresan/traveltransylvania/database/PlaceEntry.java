@@ -114,4 +114,12 @@ public class PlaceEntry {
     public void setCastle(boolean castle) {
         isCastle = castle;
     }
+
+    @Override
+    public String toString() {
+        return "Check out this awesome place: " +
+                name + "\n" +
+                description + "\n" +
+                readMoreLink;
+    }
 }
