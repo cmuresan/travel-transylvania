@@ -4,4 +4,6 @@
     <dimen name="margin_small">12dp</dimen>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="text_size_large">16sp</dimen>
+    <dimen name="places_margin">4dp</dimen>
+    <dimen name="header_divider_size">0.5dp</dimen>
 </resources>

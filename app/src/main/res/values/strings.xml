@@ -2,4 +2,8 @@
     <string name="app_name">Travel Transylvania</string>
     <string name="name_placeholder">Name</string>
     <string name="place_image_content_description">Place image</string>
+    <string name="favorites">Favorites</string>
+    <string name="cities">Cities</string>
+    <string name="villages">Villages</string>
+    <string name="castles">Castles, Citadels and Fortresses</string>
 </resources>
