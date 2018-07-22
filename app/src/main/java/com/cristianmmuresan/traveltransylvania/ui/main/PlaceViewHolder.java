@@ -9,14 +9,25 @@ import com.cristianmmuresan.traveltransylvania.databinding.ItemPlaceBinding;
 
 class PlaceViewHolder extends RecyclerView.ViewHolder {
     private ItemPlaceBinding binding;
+    private final OnPlaceItemClickListener onPlaceItemClickListener;
 
-    PlaceViewHolder(View viewPlace) {
+    PlaceViewHolder(View viewPlace, OnPlaceItemClickListener onPlaceItemClickListener) {
         super(viewPlace);
         binding = DataBindingUtil.bind(viewPlace);
+        this.onPlaceItemClickListener = onPlaceItemClickListener;
     }
 
-    void bindData(PlaceEntry place) {
+    void bindData(final PlaceEntry place) {
         binding.placeName.setText(place.getName());
         binding.placeImage.setImageResource(place.getImageResources());
+
+        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onPlaceItemClickListener != null) {
+                    onPlaceItemClickListener.onClick(place.getId());
+                }
+            }
+        });
     }
 }

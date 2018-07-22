@@ -15,11 +15,12 @@ import com.cristianmmuresan.traveltransylvania.databinding.ActivityMainBinding;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnPlaceItemClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int SPAN_COUNT = 2;
     private ActivityMainBinding binding;
     private PlacesAdapter placesAdapter;
+    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        placesAdapter = new PlacesAdapter();
+        placesAdapter = new PlacesAdapter(this);
 
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, SPAN_COUNT);
         gridLayoutManager.setSpanSizeLookup(
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        final MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         viewModel.getPlaces().observe(this, new Observer<List<PlaceEntry>>() {
             @Override
             public void onChanged(@Nullable List<PlaceEntry> placeEntries) {
@@ -66,5 +67,10 @@ public class MainActivity extends AppCompatActivity {
                         "  Updating list of places from LiveData in ViewModel ");
             }
         });
+    }
+
+    @Override
+    public void onClick(int placeId) {
+        viewModel.startPlaceActivity(placeId);
     }
 }

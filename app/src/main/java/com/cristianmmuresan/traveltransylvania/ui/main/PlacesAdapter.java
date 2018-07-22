@@ -15,7 +15,12 @@ import java.util.List;
 public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_HEADER = 0;
     private static final int VIEW_TYPE_PLACE = 1;
+    private final OnPlaceItemClickListener onPlaceItemClickListener;
     private List<Object> places;
+
+    PlacesAdapter(OnPlaceItemClickListener onPlaceItemClickListener) {
+        this.onPlaceItemClickListener = onPlaceItemClickListener;
+    }
 
     public boolean isHeader(int position) {
         return getItemViewType(position) == VIEW_TYPE_HEADER;
@@ -52,7 +57,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             case VIEW_TYPE_PLACE:
                 View viewPlace = inflater.inflate(R.layout.item_place, parent, false);
-                return new PlaceViewHolder(viewPlace);
+                return new PlaceViewHolder(viewPlace, onPlaceItemClickListener);
             default:
                 return null;
         }
@@ -67,9 +72,9 @@ public class PlacesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 statusViewHolder.bindData(status);
                 break;
             case VIEW_TYPE_PLACE:
-                PlaceViewHolder resortViewHolder = (PlaceViewHolder) holder;
+                PlaceViewHolder placeViewHolder = (PlaceViewHolder) holder;
                 PlaceEntry place = (PlaceEntry) places.get(position);
-                resortViewHolder.bindData(place);
+                placeViewHolder.bindData(place);
                 break;
         }
     }

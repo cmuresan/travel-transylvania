@@ -3,12 +3,14 @@ package com.cristianmmuresan.traveltransylvania.ui.main;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
+import com.cristianmmuresan.traveltransylvania.ui.place.PlaceActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,11 @@ import java.util.List;
 public class MainViewModel extends AndroidViewModel {
 
     private LiveData<List<PlaceEntry>> places;
+    private final AppDatabase database;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
-        AppDatabase database = AppDatabase.getInstance(this.getApplication());
+        database = AppDatabase.getInstance(this.getApplication());
         places = database.placeDao().loadAllPlaces();
     }
 
@@ -66,5 +69,11 @@ public class MainViewModel extends AndroidViewModel {
             allPlaces.addAll(castles);
         }
         return allPlaces;
+    }
+
+    public void startPlaceActivity(int placeId) {
+        Intent placeActivityIntent = new Intent(this.getApplication(), PlaceActivity.class);
+        placeActivityIntent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
+        this.getApplication().startActivity(placeActivityIntent);
     }
 }
