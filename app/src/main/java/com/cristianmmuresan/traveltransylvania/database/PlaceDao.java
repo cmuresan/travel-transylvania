@@ -18,4 +18,13 @@ public interface PlaceDao {
 
     @Query("SELECT * FROM place WHERE id = :id")
     LiveData<PlaceEntry> loadPlaceById(int id);
+
+    @Query("SELECT * FROM place WHERE isCity")
+    LiveData<PlaceEntry> loadCities();
+
+    @Query("SELECT * FROM place WHERE isVillage")
+    LiveData<PlaceEntry> loadVillages();
+
+    @Query("SELECT * FROM place WHERE isCastle")
+    LiveData<PlaceEntry> loadCastles();
 }

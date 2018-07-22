@@ -15,6 +15,9 @@ public class PlaceEntry {
     private float zoom;
     private int imageResources;
     private boolean isFavorite;
+    private boolean isCity;
+    private boolean isVillage;
+    private boolean isCastle;
 
     public int getId() {
         return id;
@@ -86,5 +89,29 @@ public class PlaceEntry {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public boolean isCity() {
+        return isCity;
+    }
+
+    public void setCity(boolean city) {
+        isCity = city;
+    }
+
+    public boolean isVillage() {
+        return isVillage;
+    }
+
+    public void setVillage(boolean village) {
+        isVillage = village;
+    }
+
+    public boolean isCastle() {
+        return isCastle;
+    }
+
+    public void setCastle(boolean castle) {
+        isCastle = castle;
     }
 }

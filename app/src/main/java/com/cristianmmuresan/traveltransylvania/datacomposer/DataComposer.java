@@ -15,6 +15,9 @@ public class DataComposer {
 
     private final Context context;
     private AppDatabase appDatabase;
+    private boolean isCity = true;
+    private boolean isVillage = false;
+    private boolean isCastle = false;
 
     public DataComposer(Context context) {
         this.context = context;
@@ -39,6 +42,7 @@ public class DataComposer {
         //We assume that the newly create lists are equal in size
         int size = names.size();
         for (int i = 0; i < size; i++) {
+            handleCategoryChange(names.get(i));
             PlaceEntry placeEntry = new PlaceEntry();
             placeEntry.setName(names.get(i));
             placeEntry.setDescription(descriptions.get(i));
@@ -48,7 +52,23 @@ public class DataComposer {
             placeEntry.setZoom(Float.parseFloat(zoomLevels.get(i)));
             placeEntry.setFavorite(false);
             placeEntry.setImageResources(resources.getIdentifier(images.get(i), "drawable", packageName));
+            placeEntry.setCity(isCity);
+            placeEntry.setVillage(isVillage);
+            placeEntry.setCastle(isCastle);
             insertPlaceEntry(placeEntry);
+        }
+    }
+
+    private void handleCategoryChange(String name) {
+        if ("Biertan".equals(name)) {
+            isCity = false;
+            isVillage = true;
+            isCastle = false;
+        }
+        if("Alba Iulia Citadel".equals(name)){
+            isCity = false;
+            isVillage = false;
+            isCastle = true;
         }
     }
 
