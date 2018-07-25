@@ -62,6 +62,8 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
         binding.mainCollapsing.setTitle(placeEntry.getName());
         if (placeEntry.isFavorite()) {
             binding.favorite.setImageResource(R.drawable.ic_favorite);
+        }else{
+            binding.favorite.setImageResource(R.drawable.ic_favorite_border);
         }
     }
 
