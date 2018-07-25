@@ -13,6 +13,7 @@ import android.view.View;
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.databinding.ActivityPlaceBinding;
+import com.squareup.picasso.Picasso;
 
 public class PlaceActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = PlaceActivity.class.getSimpleName();
@@ -58,11 +59,12 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
     private void updateUi(@NonNull PlaceEntry placeEntry) {
         this.placeEntry = placeEntry;
         binding.description.setText(placeEntry.getDescription());
+        Picasso.get().load(placeEntry.getImageResources()).placeholder(R.drawable.ic_image).into(binding.image);
         binding.image.setImageResource(placeEntry.getImageResources());
         binding.mainCollapsing.setTitle(placeEntry.getName());
         if (placeEntry.isFavorite()) {
             binding.favorite.setImageResource(R.drawable.ic_favorite);
-        }else{
+        } else {
             binding.favorite.setImageResource(R.drawable.ic_favorite_border);
         }
     }

@@ -4,8 +4,10 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.databinding.ItemPlaceBinding;
+import com.squareup.picasso.Picasso;
 
 class PlaceViewHolder extends RecyclerView.ViewHolder {
     private ItemPlaceBinding binding;
@@ -19,7 +21,7 @@ class PlaceViewHolder extends RecyclerView.ViewHolder {
 
     void bindData(final PlaceEntry place) {
         binding.placeName.setText(place.getName());
-        binding.placeImage.setImageResource(place.getImageResources());
+        Picasso.get().load(place.getImageResources()).placeholder(R.drawable.ic_image).into(binding.placeImage);
 
         binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
