@@ -36,6 +36,7 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
     private void setupClickListeners() {
         binding.readMore.setOnClickListener(this);
         binding.checkMap.setOnClickListener(this);
+        binding.favorite.setOnClickListener(this);
         binding.share.setOnClickListener(this);
         binding.directionsFab.setOnClickListener(this);
     }
@@ -59,6 +60,9 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
         binding.description.setText(placeEntry.getDescription());
         binding.image.setImageResource(placeEntry.getImageResources());
         binding.mainCollapsing.setTitle(placeEntry.getName());
+        if (placeEntry.isFavorite()) {
+            binding.favorite.setImageResource(R.drawable.ic_favorite);
+        }
     }
 
     @Override
@@ -69,6 +73,9 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.check_map:
                 viewModel.checkMap(placeEntry.getLatitude(), placeEntry.getLongitude(), placeEntry.getZoom());
+                break;
+            case R.id.favorite:
+                viewModel.favorite(placeEntry);
                 break;
             case R.id.share:
                 viewModel.share(placeEntry.toString());

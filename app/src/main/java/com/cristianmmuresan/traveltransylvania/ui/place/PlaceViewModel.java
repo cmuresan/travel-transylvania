@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
+import com.cristianmmuresan.traveltransylvania.database.AppExecutors;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 
 import java.util.Locale;
@@ -37,6 +38,18 @@ public class PlaceViewModel extends AndroidViewModel {
 
     public void checkMap(double latitude, double longitude, float zoom) {
         //TODO map activity to be created
+    }
+
+    public void favorite(PlaceEntry placeEntry) {
+        placeEntry.setFavorite(!placeEntry.isFavorite());
+
+        final PlaceEntry place = placeEntry;
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                database.placeDao().updatePlace(place);
+            }
+        });
     }
 
     public void share(String shareMessage) {
