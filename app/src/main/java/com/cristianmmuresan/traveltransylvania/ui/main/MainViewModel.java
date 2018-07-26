@@ -1,8 +1,11 @@
 package com.cristianmmuresan.traveltransylvania.ui.main;
 
 import android.app.Application;
+import android.arch.core.util.Function;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -18,16 +21,33 @@ import java.util.List;
 public class MainViewModel extends AndroidViewModel {
 
     private LiveData<List<PlaceEntry>> places;
+    private LiveData<List<PlaceEntry>> placesBySearch;
+    private MutableLiveData<String> filterLiveData = new MutableLiveData<>();
     private final AppDatabase database;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         database = AppDatabase.getInstance(this.getApplication());
         places = database.placeDao().loadAllPlaces();
+        placesBySearch = Transformations.switchMap(filterLiveData, new Function<String, LiveData<List<PlaceEntry>>>() {
+            @Override
+            public LiveData<List<PlaceEntry>> apply(String input) {
+                String query = input.toLowerCase() + "%";
+                return database.placeDao().search(query);
+            }
+        });
     }
 
     public LiveData<List<PlaceEntry>> getPlaces() {
         return places;
+    }
+
+    public LiveData<List<PlaceEntry>> getPlacesBySearch() {
+        return placesBySearch;
+    }
+
+    public void setQuery(String query) {
+        filterLiveData.setValue(query);
     }
 
     public List<Object> getListWithHeaders(@NonNull List<PlaceEntry> placeEntries) {

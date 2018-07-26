@@ -23,4 +23,7 @@ public interface PlaceDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updatePlace(PlaceEntry placeEntry);
+
+    @Query("SELECT * FROM place WHERE LOWER(name) LIKE :query")
+    LiveData<List<PlaceEntry>> search(String query);
 }
