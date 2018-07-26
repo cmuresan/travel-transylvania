@@ -76,7 +76,7 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
                 viewModel.readMore(placeEntry.getReadMoreLink());
                 break;
             case R.id.check_map:
-                viewModel.checkMap(placeEntry.getLatitude(), placeEntry.getLongitude(), placeEntry.getZoom());
+                viewModel.checkMap(placeEntry.getId());
                 break;
             case R.id.favorite:
                 viewModel.favorite(placeEntry);

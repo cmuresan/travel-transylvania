@@ -10,7 +10,7 @@ public class PlaceViewModelFactory extends ViewModelProvider.NewInstanceFactory 
     private final Application application;
     private final int placeId;
 
-    PlaceViewModelFactory(Application application, int placeId) {
+    public PlaceViewModelFactory(Application application, int placeId) {
         this.application = application;
         this.placeId = placeId;
     }

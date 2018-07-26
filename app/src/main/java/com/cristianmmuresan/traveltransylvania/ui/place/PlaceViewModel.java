@@ -13,6 +13,7 @@ import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
 import com.cristianmmuresan.traveltransylvania.database.AppExecutors;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
+import com.cristianmmuresan.traveltransylvania.ui.map.MapsActivity;
 
 import java.util.Locale;
 
@@ -36,8 +37,10 @@ public class PlaceViewModel extends AndroidViewModel {
         this.getApplication().startActivity(browserIntent);
     }
 
-    public void checkMap(double latitude, double longitude, float zoom) {
-        //TODO map activity to be created
+    public void checkMap(double placeId) {
+        Intent mapIntent = new Intent(this.getApplication(), MapsActivity.class);
+        mapIntent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
+        this.getApplication().startActivity(mapIntent);
     }
 
     public void favorite(PlaceEntry placeEntry) {
