@@ -46,6 +46,22 @@
         <activity
             android:name=".ui.map.MapsActivity"
             android:label="@string/title_activity_maps"/>
+
+        <receiver android:name=".ui.widget.PlaceWeatherWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/place_weather_widget_info" />
+        </receiver>
+
+        <activity android:name=".ui.widget.PlacesWidgetConfigureActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

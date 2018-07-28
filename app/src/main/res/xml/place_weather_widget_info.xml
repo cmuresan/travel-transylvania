@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.cristianmmuresan.traveltransylvania.ui.widget.PlacesWidgetConfigureActivity"
+    android:initialKeyguardLayout="@layout/place_weather_widget"
+    android:initialLayout="@layout/place_weather_widget"
+    android:minHeight="80dp"
+    android:minWidth="180dp"
+    android:previewImage="@drawable/ic_image"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="3600000"
+    android:widgetCategory="home_screen"></appwidget-provider>

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-class WeatherInfo implements Parcelable {
+public class WeatherInfo implements Parcelable {
     @SerializedName("temp")
     private double temp;
     @SerializedName("pressure")

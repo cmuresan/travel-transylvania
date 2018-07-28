@@ -11,4 +11,6 @@
     <string name="get_directions">Get directions</string>
     <string name="search">Search</string>
     <string name="title_activity_maps">Map</string>
+    <string name="weather_icon">Weather icon</string>
+    <string name="appwidget_text">EXAMPLE</string>
 </resources>

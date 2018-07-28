@@ -13,10 +13,6 @@ import android.view.View;
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.databinding.ActivityPlaceBinding;
-import com.example.android.networkmodule.model.Weather;
-import com.example.android.networkmodule.network.ApiImpl;
-import com.example.android.networkmodule.network.ApiInterface;
-import com.example.android.networkmodule.network.CallbackInterface;
 import com.squareup.picasso.Picasso;
 
 public class PlaceActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,22 +67,7 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
         } else {
             binding.favorite.setImageResource(R.drawable.ic_favorite_border);
         }
-
-        ApiInterface apiInterface = new ApiImpl();
-        apiInterface.getWeather(placeEntry.getLatitude(), placeEntry.getLongitude(), weatherApiCallbackInterface);
     }
-
-    private final CallbackInterface<Weather> weatherApiCallbackInterface = new CallbackInterface<Weather>() {
-        @Override
-        public void success(Weather response) {
-            Log.d(TAG, "success: ");
-        }
-
-        @Override
-        public void failure(String errorMessage, String errorCode) {
-            Log.d(TAG, "failure: ");
-        }
-    };
 
     @Override
     public void onClick(View v) {

@@ -1,0 +1,165 @@
+package com.cristianmmuresan.traveltransylvania.ui.widget;
+
+import android.appwidget.AppWidgetManager;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+
+import com.cristianmmuresan.traveltransylvania.R;
+import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
+import com.cristianmmuresan.traveltransylvania.databinding.PlacesWidgetConfigureBinding;
+import com.cristianmmuresan.traveltransylvania.ui.main.MainViewModel;
+
+import java.util.List;
+
+/**
+ * The configuration screen for the {@link PlaceWeatherWidget PlaceWeatherWidget} AppWidget.
+ */
+public class PlacesWidgetConfigureActivity extends AppCompatActivity implements OnPlaceItemClickListener {
+
+    private static final String PREFS_NAME = "com.cristianmmuresan.traveltransylvania.ui.widget.PlaceWeatherWidget";
+    private static final String MAX_TEMP_PREFIX_KEY = "max_temp_appwidget_";
+    private static final String MIN_TEMP_PREFIX_KEY = "min_temp_appwidget_";
+    private static final String ICON_ID_PREFIX_KEY = "icon_id_appwidget_";
+    private static final String NAME_PREFIX_KEY = "name_appwidget_";
+    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+
+    private WidgetPlacesAdapter widgetPlacesAdapter;
+    private List<PlaceEntry> places;
+    private MainViewModel viewModel;
+
+    public PlacesWidgetConfigureActivity() {
+        super();
+    }
+
+    private static void savePref(Context context, String prefixKey, int appWidgetId, float value) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        prefs.putFloat(prefixKey + appWidgetId, value);
+        prefs.apply();
+    }
+
+    private static void saveStringPref(Context context, String prefixKey, int appWidgetId, String value) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        prefs.putString(prefixKey + appWidgetId, value);
+        prefs.apply();
+    }
+
+    static float loadMaxTemp(Context context, int appWidgetId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        return prefs.getFloat(MAX_TEMP_PREFIX_KEY + appWidgetId, 0f);
+    }
+
+    static float loadMinTemp(Context context, int appWidgetId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        return prefs.getFloat(MIN_TEMP_PREFIX_KEY + appWidgetId, 0f);
+    }
+
+    public static String loadIconId(Context context, int appWidgetId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        return prefs.getString(ICON_ID_PREFIX_KEY + appWidgetId, "");
+    }
+
+    static String loadNamePref(Context context, int appWidgetId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
+        String contentValue = prefs.getString(NAME_PREFIX_KEY + appWidgetId, null);
+        if (contentValue != null) {
+            return contentValue;
+        } else {
+            return context.getString(R.string.appwidget_text);
+        }
+    }
+
+    static void deletePrefs(Context context, int appWidgetId) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        prefs.remove(MAX_TEMP_PREFIX_KEY + appWidgetId);
+        prefs.remove(MIN_TEMP_PREFIX_KEY + appWidgetId);
+        prefs.apply();
+    }
+
+    private PlacesWidgetConfigureBinding binding;
+
+    @Override
+    public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+
+        // Set the result to CANCELED.  This will cause the widget host to cancel
+        // out of the widget placement if the user presses the back button.
+        setResult(RESULT_CANCELED);
+
+        setContentView(R.layout.places_widget_configure);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.places_widget_configure);
+
+        setupViewModel();
+        initRecyclerView();
+
+        // Find the widget id from the intent.
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+
+        // If this activity was started with an intent without an app widget ID, finish with an error.
+        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+            finish();
+            return;
+        }
+
+        widgetPlacesAdapter.setClickListener(this);
+    }
+
+    private void setupViewModel() {
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getPlaces().observe(this, new Observer<List<PlaceEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<PlaceEntry> placeEntries) {
+                places = placeEntries;
+                widgetPlacesAdapter.setPlaces(placeEntries);
+            }
+        });
+    }
+
+    private void initRecyclerView() {
+        widgetPlacesAdapter = new WidgetPlacesAdapter(this);
+
+        binding.widgetPlacesRecyclerView.setHasFixedSize(true);
+        binding.widgetPlacesRecyclerView.setAdapter(widgetPlacesAdapter);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        final Context context = PlacesWidgetConfigureActivity.this;
+
+        if (places == null || places.size() == 0) return;
+
+        double maxTemp = places.get(position).getMaxTemp();
+        double minTemp = places.get(position).getMinTemp();
+        String iconId = places.get(position).getIconId();
+        String name = places.get(position).getName();
+
+        // When the button is clicked, store the string locally
+        savePref(context, MAX_TEMP_PREFIX_KEY, mAppWidgetId, (float) maxTemp);
+        savePref(context, MIN_TEMP_PREFIX_KEY, mAppWidgetId, (float) minTemp);
+        saveStringPref(context, ICON_ID_PREFIX_KEY, mAppWidgetId, iconId);
+        saveStringPref(context, NAME_PREFIX_KEY, mAppWidgetId, name);
+
+        // It is the responsibility of the configuration activity to update the app widget
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        PlaceWeatherWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+
+        // Make sure we pass back the original appWidgetId
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+        setResult(RESULT_OK, resultValue);
+        finish();
+    }
+}
+

@@ -17,6 +17,7 @@
             android:paddingTop="@dimen/margin_xx_small"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
+            android:textColor="@color/colorPrimaryText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/favorites" />
