@@ -37,7 +37,7 @@ public class PlaceViewModel extends AndroidViewModel {
         this.getApplication().startActivity(browserIntent);
     }
 
-    public void checkMap(double placeId) {
+    public void checkMap(int placeId) {
         Intent mapIntent = new Intent(this.getApplication(), MapsActivity.class);
         mapIntent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
         this.getApplication().startActivity(mapIntent);
