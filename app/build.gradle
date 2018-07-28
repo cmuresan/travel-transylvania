@@ -39,4 +39,6 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-location:$google_services_version"
     implementation "com.google.android.gms:play-services-maps:$google_services_version"
+
+    implementation project(':networkmodule')
 }
