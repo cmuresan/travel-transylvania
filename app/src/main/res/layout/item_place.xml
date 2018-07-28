@@ -9,7 +9,7 @@
         android:focusable="true"
         app:squareLayoutOrientation="vertical">
 
-        <com.cristianmmuresan.traveltransylvania.widget.SquareImageView
+        <com.cristianmmuresan.traveltransylvania.customview.SquareImageView
             android:id="@+id/place_image"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

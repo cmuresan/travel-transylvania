@@ -1,4 +1,4 @@
-package com.cristianmmuresan.traveltransylvania.widget;
+package com.cristianmmuresan.traveltransylvania.customview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
