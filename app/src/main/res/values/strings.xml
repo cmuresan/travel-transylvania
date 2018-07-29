@@ -18,4 +18,5 @@
     <string name="check_on_map">Check location on map</string>
     <string name="favorite_content_description">Set as favorite</string>
     <string name="share">Share</string>
+    <string name="failed_fetchin_weather_data">Failed fetching weather data</string>
 </resources>

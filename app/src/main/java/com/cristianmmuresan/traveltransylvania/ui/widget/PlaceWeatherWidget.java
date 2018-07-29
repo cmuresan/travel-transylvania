@@ -29,7 +29,7 @@ import static android.support.constraint.Constraints.TAG;
  */
 public class PlaceWeatherWidget extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, final AppWidgetManager appWidgetManager,
+    static void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager,
                                 final int appWidgetId) {
 
         // Construct the RemoteViews object
@@ -61,7 +61,7 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
                 views.setTextViewText(R.id.tempMax, String.valueOf(response.getMain().getTempMax()));
                 views.setTextViewText(R.id.tempMin, String.valueOf(response.getMain().getTempMin()));
                 String iconUrl = String.format(Locale.US, WeatherConstants.WEATHER_ICON_URL, response.getWeather().get(0).getIcon());
-                Picasso.get().load(Uri.parse(iconUrl)).resize(100,100).into(views, R.id.weather_icon, new int[]{appWidgetId});
+                Picasso.get().load(Uri.parse(iconUrl)).resize(100, 100).into(views, R.id.weather_icon, new int[]{appWidgetId});
 
                 // Instruct the widget manager to update the widget
                 appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -70,6 +70,10 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
             @Override
             public void failure(String errorMessage, String errorCode) {
                 Log.d(TAG, "failure: ");
+                String message = context.getString(R.string.failed_fetchin_weather_data);
+                views.setTextViewText(R.id.place_name, message);
+                // Instruct the widget manager to update the widget
+                appWidgetManager.updateAppWidget(appWidgetId, views);
             }
         });
     }
@@ -78,7 +82,7 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, PlaceActivity.class);
         intent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);
     }
 
