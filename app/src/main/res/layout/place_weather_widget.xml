@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/weather_icon"
         android:paddingLeft="@dimen/margin_default"
-        android:paddingStart="@dimen/margin_default" />
+        android:paddingStart="@dimen/margin_default"
+        android:src="@drawable/ic_image" />
 
     <TextView
         android:id="@+id/place_name"
@@ -27,18 +28,21 @@
         android:id="@+id/tempMax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginEnd="@dimen/margin_default"
-        android:layout_marginRight="@dimen/margin_default"
-        android:layout_toEndOf="@id/weather_icon"
-        android:layout_toRightOf="@id/weather_icon" />
+        android:layout_marginRight="@dimen/margin_default" />
 
     <TextView
         android:id="@+id/tempMin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tempMax"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignStart="@id/tempMax"
         android:layout_below="@id/tempMax"
         android:layout_marginEnd="@dimen/margin_default"
-        android:layout_marginRight="@dimen/margin_default" />
+        android:layout_marginRight="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_large" />
 </RelativeLayout>

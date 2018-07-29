@@ -42,7 +42,7 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
         float longitude = PlacesWidgetConfigureActivity.loadLongitude(context, appWidgetId);
         int placeId = PlacesWidgetConfigureActivity.loadPlaceId(context, appWidgetId);
         final String name = PlacesWidgetConfigureActivity.loadNamePref(context, appWidgetId);
-        
+
         setupPendingIntent(context, views, placeId);
 
         ApiInterface apiInterface = new ApiImpl();
@@ -67,11 +67,12 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
 
             @Override
             public void failure(String errorMessage, String errorCode) {
+                String tempMax = "Max " + String.valueOf(24);
+                String tempMin = "Min " + String.valueOf(21);
+
                 views.setTextViewText(R.id.place_name, name);
-                views.setTextViewText(R.id.tempMax, String.valueOf(24));
-                views.setTextViewText(R.id.tempMin, String.valueOf(21));
-                String iconUrl = "http://openweathermap.org/img/w/10d.png";
-                views.setImageViewUri(R.id.weather_icon, Uri.parse(iconUrl));
+                views.setTextViewText(R.id.tempMax, tempMax);
+                views.setTextViewText(R.id.tempMin, tempMin);
 
                 // Instruct the widget manager to update the widget
                 appWidgetManager.updateAppWidget(appWidgetId, views);
