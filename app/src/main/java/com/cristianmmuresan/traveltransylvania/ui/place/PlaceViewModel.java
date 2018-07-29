@@ -21,14 +21,12 @@ import java.util.Locale;
 
 public class PlaceViewModel extends AndroidViewModel {
     private static final String TAG = PlaceViewModel.class.getSimpleName();
-    private final DatabaseUpdateOperations databaseUpdateOperations;
     private LiveData<PlaceEntry> place;
     private final AppDatabase appDatabase;
 
     PlaceViewModel(@NonNull Application application, int placeId) {
         super(application);
         appDatabase = AppDatabase.getInstance(this.getApplication());
-        databaseUpdateOperations = new DatabaseUpdateOperations(appDatabase);
         place = appDatabase.placeDao().loadPlaceById(placeId);
     }
 
@@ -53,7 +51,7 @@ public class PlaceViewModel extends AndroidViewModel {
         sendFavoriteEvent(placeEntry.getName());
         placeEntry.setFavorite(!placeEntry.isFavorite());
 
-        databaseUpdateOperations.execute(placeEntry);
+        new DatabaseUpdateOperations(appDatabase).execute(placeEntry);
     }
 
     public void share(String shareMessage) {
