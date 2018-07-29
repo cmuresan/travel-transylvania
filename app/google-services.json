@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "533382136641",
+    "firebase_url": "https://silver-optics-211419.firebaseio.com",
+    "project_id": "silver-optics-211419",
+    "storage_bucket": "silver-optics-211419.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533382136641:android:70f2812081412718",
+        "android_client_info": {
+          "package_name": "com.cristianmmuresan.traveltransylvania"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533382136641-dff36htnfhkoc12rriee1qficq4uado4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cristianmmuresan.traveltransylvania",
+            "certificate_hash": "892f326e5fc28791daae04f05fc388bd5f83beaf"
+          }
+        },
+        {
+          "client_id": "533382136641-248giu35hop5catdj109s1iidn0u3h1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBKuyl1P8tYLPkI3llXI-PRtvxhKpZjZ0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533382136641-248giu35hop5catdj109s1iidn0u3h1e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

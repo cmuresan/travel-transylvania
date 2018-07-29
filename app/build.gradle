@@ -48,5 +48,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$google_services_version"
     implementation "com.google.android.gms:play-services-maps:$google_services_version"
 
+    implementation "com.google.firebase:firebase-core:$firebase_core_version"
+
     implementation project(':networkmodule')
 }
+
+apply plugin: 'com.google.gms.google-services'
