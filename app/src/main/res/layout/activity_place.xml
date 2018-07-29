@@ -87,7 +87,7 @@
                 <ImageButton
                     android:id="@+id/check_map"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:background="@android:color/white"
                     android:src="@drawable/ic_map"
                     android:contentDescription="@string/check_on_map"
@@ -100,7 +100,7 @@
                 <ImageButton
                     android:id="@+id/favorite"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:background="@android:color/white"
                     android:src="@drawable/ic_favorite_border"
                     android:contentDescription="@string/favorite_content_description"
@@ -113,7 +113,7 @@
                 <ImageButton
                     android:id="@+id/share"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:background="@android:color/white"
                     android:src="@drawable/ic_share"
                     android:contentDescription="@string/share"
