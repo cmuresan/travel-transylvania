@@ -13,4 +13,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="weather_icon">Weather icon</string>
     <string name="appwidget_text">EXAMPLE</string>
+    <string name="place_wallpaper">Image representing the location</string>
+    <string name="read_more">Read more in browser</string>
+    <string name="check_on_map">Check location on map</string>
+    <string name="favorite_content_description">Set as favorite</string>
+    <string name="share">Share</string>
 </resources>
