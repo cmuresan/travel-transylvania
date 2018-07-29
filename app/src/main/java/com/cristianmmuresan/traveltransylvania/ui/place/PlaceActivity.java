@@ -27,10 +27,13 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place);
 
-        int placeId = getIntent().getIntExtra(PLACE_ID_KEY, 1);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_place);
-        setupViewModel(placeId);
+
+        if (getIntent() != null && getIntent().hasExtra(PLACE_ID_KEY)) {
+            int placeId = getIntent().getIntExtra(PLACE_ID_KEY, 1);
+            setupViewModel(placeId);
+        }
+
         setupClickListeners();
     }
 
