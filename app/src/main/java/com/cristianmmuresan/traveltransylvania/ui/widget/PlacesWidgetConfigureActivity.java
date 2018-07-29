@@ -24,9 +24,9 @@ import java.util.List;
 public class PlacesWidgetConfigureActivity extends AppCompatActivity implements OnPlaceItemClickListener {
 
     private static final String PREFS_NAME = "com.cristianmmuresan.traveltransylvania.ui.widget.PlaceWeatherWidget";
-    private static final String MAX_TEMP_PREFIX_KEY = "max_temp_appwidget_";
-    private static final String MIN_TEMP_PREFIX_KEY = "min_temp_appwidget_";
-    private static final String ICON_ID_PREFIX_KEY = "icon_id_appwidget_";
+    private static final String LATITUDE_PREFIX_KEY = "max_temp_appwidget_";
+    private static final String LONGITUDE_PREFIX_KEY = "min_temp_appwidget_";
+    private static final String PLACE_ID_PREFIX_KEY = "place_id_appwidget_";
     private static final String NAME_PREFIX_KEY = "name_appwidget_";
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
@@ -38,9 +38,15 @@ public class PlacesWidgetConfigureActivity extends AppCompatActivity implements 
         super();
     }
 
-    private static void savePref(Context context, String prefixKey, int appWidgetId, float value) {
+    private static void saveFloatPref(Context context, String prefixKey, int appWidgetId, float value) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.putFloat(prefixKey + appWidgetId, value);
+        prefs.apply();
+    }
+
+    private static void saveIntPref(Context context, String prefixKey, int appWidgetId, int value) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        prefs.putInt(prefixKey + appWidgetId, value);
         prefs.apply();
     }
 
@@ -50,19 +56,19 @@ public class PlacesWidgetConfigureActivity extends AppCompatActivity implements 
         prefs.apply();
     }
 
-    static float loadMaxTemp(Context context, int appWidgetId) {
+    static float loadLatitude(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        return prefs.getFloat(MAX_TEMP_PREFIX_KEY + appWidgetId, 0f);
+        return prefs.getFloat(LATITUDE_PREFIX_KEY + appWidgetId, 0f);
     }
 
-    static float loadMinTemp(Context context, int appWidgetId) {
+    static float loadLongitude(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        return prefs.getFloat(MIN_TEMP_PREFIX_KEY + appWidgetId, 0f);
+        return prefs.getFloat(LONGITUDE_PREFIX_KEY + appWidgetId, 0f);
     }
 
-    public static String loadIconId(Context context, int appWidgetId) {
+    static int loadPlaceId(Context context, int appWidgetId) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, 0);
-        return prefs.getString(ICON_ID_PREFIX_KEY + appWidgetId, "");
+        return prefs.getInt(PLACE_ID_PREFIX_KEY + appWidgetId, 0);
     }
 
     static String loadNamePref(Context context, int appWidgetId) {
@@ -77,8 +83,8 @@ public class PlacesWidgetConfigureActivity extends AppCompatActivity implements 
 
     static void deletePrefs(Context context, int appWidgetId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
-        prefs.remove(MAX_TEMP_PREFIX_KEY + appWidgetId);
-        prefs.remove(MIN_TEMP_PREFIX_KEY + appWidgetId);
+        prefs.remove(LATITUDE_PREFIX_KEY + appWidgetId);
+        prefs.remove(LONGITUDE_PREFIX_KEY + appWidgetId);
         prefs.apply();
     }
 
@@ -140,15 +146,16 @@ public class PlacesWidgetConfigureActivity extends AppCompatActivity implements 
 
         if (places == null || places.size() == 0) return;
 
-        double maxTemp = places.get(position).getMaxTemp();
-        double minTemp = places.get(position).getMinTemp();
-        String iconId = places.get(position).getIconId();
-        String name = places.get(position).getName();
+        PlaceEntry placeEntry = places.get(position);
+        double maxTemp = placeEntry.getLatitude();
+        double minTemp = placeEntry.getLongitude();
+        String name = placeEntry.getName();
+        int placeId = placeEntry.getId();
 
         // When the button is clicked, store the string locally
-        savePref(context, MAX_TEMP_PREFIX_KEY, mAppWidgetId, (float) maxTemp);
-        savePref(context, MIN_TEMP_PREFIX_KEY, mAppWidgetId, (float) minTemp);
-        saveStringPref(context, ICON_ID_PREFIX_KEY, mAppWidgetId, iconId);
+        saveFloatPref(context, LATITUDE_PREFIX_KEY, mAppWidgetId, (float) maxTemp);
+        saveFloatPref(context, LONGITUDE_PREFIX_KEY, mAppWidgetId, (float) minTemp);
+        saveIntPref(context, PLACE_ID_PREFIX_KEY, mAppWidgetId, placeId);
         saveStringPref(context, NAME_PREFIX_KEY, mAppWidgetId, name);
 
         // It is the responsibility of the configuration activity to update the app widget

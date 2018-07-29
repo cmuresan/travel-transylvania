@@ -18,9 +18,6 @@ public class PlaceEntry {
     private boolean isCity;
     private boolean isVillage;
     private boolean isCastle;
-    private double maxTemp;
-    private double minTemp;
-    private String iconId;
 
     public int getId() {
         return id;
@@ -116,30 +113,6 @@ public class PlaceEntry {
 
     public void setCastle(boolean castle) {
         isCastle = castle;
-    }
-
-    public double getMaxTemp() {
-        return maxTemp;
-    }
-
-    public void setMaxTemp(double maxTemp) {
-        this.maxTemp = maxTemp;
-    }
-
-    public double getMinTemp() {
-        return minTemp;
-    }
-
-    public void setMinTemp(double minTemp) {
-        this.minTemp = minTemp;
-    }
-
-    public String getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(String iconId) {
-        this.iconId = iconId;
     }
 
     @Override

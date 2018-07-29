@@ -7,13 +7,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.ui.place.PlaceActivity;
 import com.example.android.networkmodule.WeatherConstants;
+import com.example.android.networkmodule.model.Weather;
+import com.example.android.networkmodule.network.ApiImpl;
+import com.example.android.networkmodule.network.ApiInterface;
+import com.example.android.networkmodule.network.CallbackInterface;
 
 import java.util.Locale;
+
+import static android.support.constraint.Constraints.TAG;
 
 /**
  * Implementation of App Widget functionality.
@@ -27,33 +34,60 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.place_weather_widget);
 
-        Intent intent = new Intent(context, PlaceActivity.class);
-        //TODO get place id
-//        intent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);
-
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitNetwork().build();
         StrictMode.setThreadPolicy(policy);
 
 
-        float maxTemp = PlacesWidgetConfigureActivity.loadMaxTemp(context, appWidgetId);
-        float minTemp = PlacesWidgetConfigureActivity.loadMinTemp(context, appWidgetId);
-        String iconId = PlacesWidgetConfigureActivity.loadIconId(context, appWidgetId);
+        float latitude = PlacesWidgetConfigureActivity.loadLatitude(context, appWidgetId);
+        float longitude = PlacesWidgetConfigureActivity.loadLongitude(context, appWidgetId);
+        int placeId = PlacesWidgetConfigureActivity.loadPlaceId(context, appWidgetId);
         final String name = PlacesWidgetConfigureActivity.loadNamePref(context, appWidgetId);
+        
+        setupPendingIntent(context, views, placeId);
+
+        ApiInterface apiInterface = new ApiImpl();
+        apiInterface.getWeather(latitude, longitude, new CallbackInterface<Weather>() {
+            @Override
+            public void success(Weather response) {
+                Log.d(TAG, "success: ");
+                if (response == null) return;
+                if (response.getMain() == null) return;
+                if (response.getWeather() == null) return;
+                if (response.getWeather().size() == 0) return;
+
+                views.setTextViewText(R.id.place_name, name);
+                views.setTextViewText(R.id.tempMax, String.valueOf(response.getMain().getTempMax()));
+                views.setTextViewText(R.id.tempMin, String.valueOf(response.getMain().getTempMin()));
+                String iconUrl = String.format(Locale.US, WeatherConstants.WEATHER_ICON_URL, response.getWeather().get(0).getIcon());
+                views.setImageViewUri(R.id.weather_icon, Uri.parse(iconUrl));
+
+                // Instruct the widget manager to update the widget
+                appWidgetManager.updateAppWidget(appWidgetId, views);
+            }
+
+            @Override
+            public void failure(String errorMessage, String errorCode) {
+                views.setTextViewText(R.id.place_name, name);
+                views.setTextViewText(R.id.tempMax, String.valueOf(24));
+                views.setTextViewText(R.id.tempMin, String.valueOf(21));
+                String iconUrl = "http://openweathermap.org/img/w/10d.png";
+                views.setImageViewUri(R.id.weather_icon, Uri.parse(iconUrl));
+
+                // Instruct the widget manager to update the widget
+                appWidgetManager.updateAppWidget(appWidgetId, views);
 
 
-        views.setTextViewText(R.id.place_name, name);
-        views.setTextViewText(R.id.tempMax, String.valueOf(maxTemp));
-        views.setTextViewText(R.id.tempMin, String.valueOf(minTemp));
+                Log.d(TAG, "failure: ");
+            }
+        });
+    }
 
-        String icon = String.format(Locale.US, WeatherConstants.WEATHER_ICON_URL, iconId);
-        views.setImageViewUri(R.id.weather_icon, Uri.parse(icon));
+    private static void setupPendingIntent(Context context, RemoteViews views, int placeId) {
+        Intent intent = new Intent(context, PlaceActivity.class);
+        intent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);
     }
 
     @Override
