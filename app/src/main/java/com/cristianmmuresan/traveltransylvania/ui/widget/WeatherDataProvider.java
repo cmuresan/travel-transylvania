@@ -19,7 +19,6 @@ public class WeatherDataProvider {
     private final AppDatabase database;
     private final List<PlaceEntry> places;
     private final ApiInterface apiInterface;
-    private OnFetchWeatherDataFinishedListener onFetchWeatherDataFinishedListener;
 
     public WeatherDataProvider(Context context, List<PlaceEntry> places) {
         database = AppDatabase.getInstance(context);
@@ -56,12 +55,5 @@ public class WeatherDataProvider {
                 }
             });
         }
-        if (onFetchWeatherDataFinishedListener != null) {
-            onFetchWeatherDataFinishedListener.onFinished();
-        }
-    }
-
-    public void setOnFetchWeatherDataFinishedListener(OnFetchWeatherDataFinishedListener onFetchWeatherDataFinishedListener) {
-        this.onFetchWeatherDataFinishedListener = onFetchWeatherDataFinishedListener;
     }
 }

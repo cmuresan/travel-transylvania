@@ -15,18 +15,16 @@ import android.view.MenuItem;
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.databinding.ActivityMainBinding;
-import com.cristianmmuresan.traveltransylvania.ui.widget.OnFetchWeatherDataFinishedListener;
 import com.cristianmmuresan.traveltransylvania.ui.widget.WeatherDataProvider;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnPlaceItemClickListener, OnFetchWeatherDataFinishedListener {
+public class MainActivity extends AppCompatActivity implements OnPlaceItemClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int SPAN_COUNT = 2;
     private ActivityMainBinding binding;
     private PlacesAdapter placesAdapter;
     private MainViewModel viewModel;
-    private boolean isFetchingWeatherData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +61,14 @@ public class MainActivity extends AppCompatActivity implements OnPlaceItemClickL
         viewModel.getPlaces().observe(this, new Observer<List<PlaceEntry>>() {
             @Override
             public void onChanged(@Nullable List<PlaceEntry> placeEntries) {
-                if (!isFetchingWeatherData) {
                     handleLiveDataChange(placeEntries);
-                    isFetchingWeatherData = true;
-                    getWeatherData(placeEntries);
-                }
             }
         });
     }
 
     private void getWeatherData(List<PlaceEntry> placeEntries) {
+        //TODO move this
         WeatherDataProvider weatherDataProvider = new WeatherDataProvider(this, placeEntries);
-        weatherDataProvider.setOnFetchWeatherDataFinishedListener(this);
         weatherDataProvider.updateWeatherData();
     }
 
@@ -148,10 +142,5 @@ public class MainActivity extends AppCompatActivity implements OnPlaceItemClickL
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onFinished() {
-        isFetchingWeatherData = false;
     }
 }
