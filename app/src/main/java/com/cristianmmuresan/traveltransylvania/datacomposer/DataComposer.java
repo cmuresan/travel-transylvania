@@ -18,7 +18,7 @@ public class DataComposer {
     private boolean isCity = true;
     private boolean isVillage = false;
     private boolean isCastle = false;
-    private DatabaseInsertOperations databaseInsertOperations;
+    private DatabaseInsertOperations databaseOperations;
 
     public DataComposer(Context context) {
         this.context = context;
@@ -27,7 +27,7 @@ public class DataComposer {
 
     private void initDatabase() {
         appDatabase = AppDatabase.getInstance(context);
-        databaseInsertOperations = new DatabaseInsertOperations(appDatabase);
+        databaseOperations = new DatabaseInsertOperations(appDatabase);
     }
 
     public void loadDataIntoDatabase() {
@@ -75,6 +75,6 @@ public class DataComposer {
     }
 
     private void insertPlaceEntry(final PlaceEntry placeEntry) {
-        databaseInsertOperations.execute(placeEntry);
+        new DatabaseInsertOperations(appDatabase).execute(placeEntry);
     }
 }
