@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.databinding.ActivityMainBinding;
-import com.cristianmmuresan.traveltransylvania.ui.widget.WeatherDataProvider;
 
 import java.util.List;
 
@@ -64,12 +63,6 @@ public class MainActivity extends AppCompatActivity implements OnPlaceItemClickL
                     handleLiveDataChange(placeEntries);
             }
         });
-    }
-
-    private void getWeatherData(List<PlaceEntry> placeEntries) {
-        //TODO move this
-        WeatherDataProvider weatherDataProvider = new WeatherDataProvider(this, placeEntries);
-        weatherDataProvider.updateWeatherData();
     }
 
     private void handleLiveDataChange(@Nullable List<PlaceEntry> placeEntries) {
