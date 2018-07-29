@@ -24,6 +24,13 @@ allprojects {
         google()
         jcenter()
     }
+    configurations {
+        all {
+            resolutionStrategy {
+                force "com.android.support:exifinterface:27.1.1"
+            }
+        }
+    }
 }
 
 task clean(type: Delete) {
