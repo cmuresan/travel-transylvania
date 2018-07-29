@@ -2,6 +2,7 @@ package com.cristianmmuresan.traveltransylvania;
 
 import android.app.Application;
 
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsEventsFactory;
 import com.cristianmmuresan.traveltransylvania.datacomposer.DataComposer;
 import com.cristianmmuresan.traveltransylvania.datacomposer.DataComposerPersister;
 
@@ -16,5 +17,7 @@ public class TravelTransylvaniaApplication extends Application {
             DataComposer dataComposer = new DataComposer(getApplicationContext());
             dataComposer.loadDataIntoDatabase();
         }
+
+        AnalyticsEventsFactory.init(this);
     }
 }

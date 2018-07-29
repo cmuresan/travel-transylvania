@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.cristianmmuresan.traveltransylvania.R;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsConstants;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsEventsFactory;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.databinding.PlacesWidgetConfigureBinding;
 import com.cristianmmuresan.traveltransylvania.ui.main.MainViewModel;
@@ -167,6 +169,16 @@ public class PlacesWidgetConfigureActivity extends AppCompatActivity implements 
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
         setResult(RESULT_OK, resultValue);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            AnalyticsEventsFactory.getInstance().setScreenName(this, AnalyticsConstants.SCREEN_WIDGET_CONFIGURATION);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }
 

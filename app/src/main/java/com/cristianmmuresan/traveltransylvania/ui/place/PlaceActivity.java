@@ -89,4 +89,10 @@ public class PlaceActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.setScreenNameEvent(this);
+    }
 }

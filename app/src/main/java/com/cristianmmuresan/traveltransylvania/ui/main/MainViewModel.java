@@ -11,6 +11,8 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.cristianmmuresan.traveltransylvania.R;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsConstants;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsEventsFactory;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.ui.place.PlaceActivity;
@@ -95,5 +97,13 @@ public class MainViewModel extends AndroidViewModel {
         Intent placeActivityIntent = new Intent(this.getApplication(), PlaceActivity.class);
         placeActivityIntent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
         this.getApplication().startActivity(placeActivityIntent);
+    }
+
+    public void setScreenNameEvent(MainActivity mainActivity) {
+        try {
+            AnalyticsEventsFactory.getInstance().setScreenName(mainActivity, AnalyticsConstants.SCREEN_MAIN);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }

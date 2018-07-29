@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.cristianmmuresan.traveltransylvania.R;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsConstants;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsEventsFactory;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
 import com.cristianmmuresan.traveltransylvania.database.AppExecutors;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
@@ -33,17 +35,20 @@ public class PlaceViewModel extends AndroidViewModel {
     }
 
     public void readMore(String readMoreLink) {
+        sendEvent(AnalyticsConstants.READ_MORE);
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(readMoreLink));
         this.getApplication().startActivity(browserIntent);
     }
 
     public void checkMap(int placeId) {
+        sendEvent(AnalyticsConstants.CHECK_ON_MAP);
         Intent mapIntent = new Intent(this.getApplication(), MapsActivity.class);
         mapIntent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
         this.getApplication().startActivity(mapIntent);
     }
 
     public void favorite(PlaceEntry placeEntry) {
+        sendFavoriteEvent(placeEntry.getName());
         placeEntry.setFavorite(!placeEntry.isFavorite());
 
         final PlaceEntry place = placeEntry;
@@ -56,6 +61,7 @@ public class PlaceViewModel extends AndroidViewModel {
     }
 
     public void share(String shareMessage) {
+        sendEvent(AnalyticsConstants.SHARE);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
         shareIntent.setType("text/plain");
@@ -64,6 +70,7 @@ public class PlaceViewModel extends AndroidViewModel {
     }
 
     public void getDirections(double latitude, double longitude) {
+        sendEvent(AnalyticsConstants.GET_DIRECTIONS);
         String directionsUriScheme = String.format(Locale.US, "http://maps.google.com/maps?daddr=%s,%s", latitude, longitude);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(directionsUriScheme));
 
@@ -86,5 +93,29 @@ public class PlaceViewModel extends AndroidViewModel {
         Intent directionsIntent = new Intent(Intent.ACTION_VIEW);
         directionsIntent.setData(Uri.parse(uri));
         return directionsIntent;
+    }
+
+    private void sendFavoriteEvent(String placeName) {
+        try {
+            AnalyticsEventsFactory.getInstance().setFavorite(placeName);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendEvent(String event) {
+        try {
+            AnalyticsEventsFactory.getInstance().setGenericEvent(event);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setScreenNameEvent(PlaceActivity placeActivity) {
+        try {
+            AnalyticsEventsFactory.getInstance().setScreenName(placeActivity, AnalyticsConstants.SCREEN_PLACE);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -136,4 +136,10 @@ public class MainActivity extends AppCompatActivity implements OnPlaceItemClickL
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        viewModel.setScreenNameEvent(this);
+    }
 }

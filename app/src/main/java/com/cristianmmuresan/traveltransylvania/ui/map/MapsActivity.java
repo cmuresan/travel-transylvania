@@ -13,6 +13,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 
 import com.cristianmmuresan.traveltransylvania.R;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsConstants;
+import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsEventsFactory;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.ui.place.PlaceActivity;
 import com.cristianmmuresan.traveltransylvania.ui.place.PlaceViewModel;
@@ -134,5 +136,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             setMyLocationEnabled();
         }
         moveMap();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            AnalyticsEventsFactory.getInstance().setScreenName(this, AnalyticsConstants.SCREEN_MAPS);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 }
