@@ -13,7 +13,7 @@ import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsConstants;
 import com.cristianmmuresan.traveltransylvania.analytics.AnalyticsEventsFactory;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
-import com.cristianmmuresan.traveltransylvania.database.AppExecutors;
+import com.cristianmmuresan.traveltransylvania.database.DatabaseUpdateOperations;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 import com.cristianmmuresan.traveltransylvania.ui.map.MapsActivity;
 
@@ -21,13 +21,15 @@ import java.util.Locale;
 
 public class PlaceViewModel extends AndroidViewModel {
     private static final String TAG = PlaceViewModel.class.getSimpleName();
+    private final DatabaseUpdateOperations databaseUpdateOperations;
     private LiveData<PlaceEntry> place;
-    private final AppDatabase database;
+    private final AppDatabase appDatabase;
 
     PlaceViewModel(@NonNull Application application, int placeId) {
         super(application);
-        database = AppDatabase.getInstance(this.getApplication());
-        place = database.placeDao().loadPlaceById(placeId);
+        appDatabase = AppDatabase.getInstance(this.getApplication());
+        databaseUpdateOperations = new DatabaseUpdateOperations(appDatabase);
+        place = appDatabase.placeDao().loadPlaceById(placeId);
     }
 
     public LiveData<PlaceEntry> getPlace() {
@@ -51,13 +53,7 @@ public class PlaceViewModel extends AndroidViewModel {
         sendFavoriteEvent(placeEntry.getName());
         placeEntry.setFavorite(!placeEntry.isFavorite());
 
-        final PlaceEntry place = placeEntry;
-        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                database.placeDao().updatePlace(place);
-            }
-        });
+        databaseUpdateOperations.execute(placeEntry);
     }
 
     public void share(String shareMessage) {

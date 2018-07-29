@@ -5,7 +5,7 @@ import android.content.res.Resources;
 
 import com.cristianmmuresan.traveltransylvania.R;
 import com.cristianmmuresan.traveltransylvania.database.AppDatabase;
-import com.cristianmmuresan.traveltransylvania.database.AppExecutors;
+import com.cristianmmuresan.traveltransylvania.database.DatabaseInsertOperations;
 import com.cristianmmuresan.traveltransylvania.database.PlaceEntry;
 
 import java.util.Arrays;
@@ -18,6 +18,7 @@ public class DataComposer {
     private boolean isCity = true;
     private boolean isVillage = false;
     private boolean isCastle = false;
+    private DatabaseInsertOperations databaseInsertOperations;
 
     public DataComposer(Context context) {
         this.context = context;
@@ -26,6 +27,7 @@ public class DataComposer {
 
     private void initDatabase() {
         appDatabase = AppDatabase.getInstance(context);
+        databaseInsertOperations = new DatabaseInsertOperations(appDatabase);
     }
 
     public void loadDataIntoDatabase() {
@@ -65,7 +67,7 @@ public class DataComposer {
             isVillage = true;
             isCastle = false;
         }
-        if("Alba Iulia Citadel".equals(name)){
+        if ("Alba Iulia Citadel".equals(name)) {
             isCity = false;
             isVillage = false;
             isCastle = true;
@@ -73,11 +75,6 @@ public class DataComposer {
     }
 
     private void insertPlaceEntry(final PlaceEntry placeEntry) {
-        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                appDatabase.placeDao().insertPlace(placeEntry);
-            }
-        });
+        databaseInsertOperations.execute(placeEntry);
     }
 }
