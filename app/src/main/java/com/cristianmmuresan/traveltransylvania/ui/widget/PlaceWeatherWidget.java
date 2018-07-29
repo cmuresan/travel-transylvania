@@ -43,7 +43,7 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
         float longitude = PlacesWidgetConfigureActivity.loadLongitude(context, appWidgetId);
         int placeId = PlacesWidgetConfigureActivity.loadPlaceId(context, appWidgetId);
         final String name = PlacesWidgetConfigureActivity.loadNamePref(context, appWidgetId);
-
+        Log.d(TAG, "updateAppWidget: " + placeId);
         setupPendingIntent(context, views, placeId);
 
         ApiInterface apiInterface = new ApiImpl();
@@ -82,7 +82,7 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, PlaceActivity.class);
         intent.putExtra(PlaceActivity.PLACE_ID_KEY, placeId);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, placeId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.widget_root, pendingIntent);
     }
 
