@@ -17,6 +17,7 @@ import com.example.android.networkmodule.model.Weather;
 import com.example.android.networkmodule.network.ApiImpl;
 import com.example.android.networkmodule.network.ApiInterface;
 import com.example.android.networkmodule.network.CallbackInterface;
+import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
@@ -55,11 +56,12 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
                 if (response.getWeather() == null) return;
                 if (response.getWeather().size() == 0) return;
 
+
                 views.setTextViewText(R.id.place_name, name);
                 views.setTextViewText(R.id.tempMax, String.valueOf(response.getMain().getTempMax()));
                 views.setTextViewText(R.id.tempMin, String.valueOf(response.getMain().getTempMin()));
                 String iconUrl = String.format(Locale.US, WeatherConstants.WEATHER_ICON_URL, response.getWeather().get(0).getIcon());
-                views.setImageViewUri(R.id.weather_icon, Uri.parse(iconUrl));
+                Picasso.get().load(Uri.parse(iconUrl)).resize(100,100).into(views, R.id.weather_icon, new int[]{appWidgetId});
 
                 // Instruct the widget manager to update the widget
                 appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -67,17 +69,6 @@ public class PlaceWeatherWidget extends AppWidgetProvider {
 
             @Override
             public void failure(String errorMessage, String errorCode) {
-                String tempMax = "Max " + String.valueOf(24);
-                String tempMin = "Min " + String.valueOf(21);
-
-                views.setTextViewText(R.id.place_name, name);
-                views.setTextViewText(R.id.tempMax, tempMax);
-                views.setTextViewText(R.id.tempMin, tempMin);
-
-                // Instruct the widget manager to update the widget
-                appWidgetManager.updateAppWidget(appWidgetId, views);
-
-
                 Log.d(TAG, "failure: ");
             }
         });

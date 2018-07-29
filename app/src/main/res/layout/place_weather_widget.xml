@@ -16,6 +16,7 @@
         android:contentDescription="@string/weather_icon"
         android:paddingLeft="@dimen/margin_default"
         android:paddingStart="@dimen/margin_default"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_image" />
 
     <TextView
@@ -44,5 +45,5 @@
         android:layout_below="@id/tempMax"
         android:layout_marginEnd="@dimen/margin_default"
         android:layout_marginRight="@dimen/margin_default"
-        android:layout_marginTop="@dimen/margin_large" />
+        android:layout_marginTop="@dimen/margin_default" />
 </RelativeLayout>
